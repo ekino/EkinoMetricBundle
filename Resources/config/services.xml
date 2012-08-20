@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="ekino.metric.pointcut" class="Ekino\Bundle\MetricBundle\Interception\MetricPointcut">
+            <tag name="jms_aop.pointcut" interceptor="ekino.metric.interceptor"/>
+
+            <argument type="collection" />
+        </service>
+
+        <service id="ekino.metric.interceptor" class="Ekino\Bundle\MetricBundle\Interception\MetricInterceptor">
+            <argument />
+            <argument type="service" id="ekino.metric.manager" />
+            <argument type="service" id="ekino.metric.string_helper" />
+        </service>
+
+        <service id="ekino.metric.manager" class="Ekino\Metric\MetricManager">
+            <argument />
+        </service>
+
+        <service id="ekino.metric.reporter.collectd" class="Ekino\Metric\Reporter\CollectDReporter">
+            <argument />
+            <argument />
+        </service>
+
+        <service id="ekino.metric.reporter.statsd" class="Ekino\Metric\Reporter\StatsDReporter">
+            <argument />
+        </service>
+
+        <service id="ekino.metric.listener.terminate" class="Ekino\Bundle\MetricBundle\Listener\TerminateListener">
+            <tag name="kernel.event_listener" event="kernel.terminate" method="onTerminate" />
+
+            <argument type="service" id="ekino.metric.manager" />
+        </service>
+
+        <service id="ekino.metric.string_helper" class="Ekino\Metric\StringHelper" />
+
+    </services>
+
+</container>
