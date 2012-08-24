@@ -14,6 +14,8 @@ namespace Ekino\Bundle\MetricBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Ekino\Bundle\MetricBundle\DependencyInjection\Compiler\ServiceCompilerPass;
+use Ekino\Bundle\MetricBundle\DependencyInjection\Compiler\DoctrineCompilerPass;
+
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
 class EkinoMetricBundle extends Bundle
@@ -23,6 +25,7 @@ class EkinoMetricBundle extends Bundle
      */
     public function build(ContainerBuilder $container)
     {
+        $container->addCompilerPass(new DoctrineCompilerPass, PassConfig::TYPE_BEFORE_REMOVING);
         $container->addCompilerPass(new ServiceCompilerPass, PassConfig::TYPE_BEFORE_REMOVING);
     }
 }

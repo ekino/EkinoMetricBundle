@@ -13,17 +13,30 @@ namespace Ekino\Bundle\MetricBundle\Listener;
 
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Ekino\Metric\MetricManager;
+use Ekino\Metric\Collector\CollectorInterface;
+use Ekino\Metric\Collector\CollectionCollectorInterface;
 
 class TerminateListener
 {
     protected $manager;
+
+    protected $collectors;
 
     /**
      * @param MetricManager $manager
      */
     public function __construct(MetricManager $manager)
     {
-        $this->manager = $manager;
+        $this->manager    = $manager;
+        $this->collectors = array();
+    }
+
+    /**
+     * @param CollectorInterface|CollectionCollectorInterface $collector
+     */
+    public function addCollector($collector)
+    {
+        $this->collectors[] = $collector;
     }
 
     /**
@@ -31,6 +44,14 @@ class TerminateListener
      */
     public function onTerminate(PostResponseEvent $event)
     {
+        foreach ($this->collectors as $collector) {
+            if ($collector instanceof CollectionCollectorInterface) {
+                $this->manager->addCollection($collector->get());
+            } elseif ($collector instanceof CollectorInterface) {
+                $this->manager->add($collector->get());
+            }
+        }
+
         $this->manager->flush();
     }
 }

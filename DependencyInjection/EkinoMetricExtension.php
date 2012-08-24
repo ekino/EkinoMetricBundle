@@ -44,6 +44,16 @@ class EkinoMetricExtension extends Extension
 
         $container->getDefinition('ekino.metric.pointcut')
             ->replaceArgument(0, $config);
+
+        // configure collector
+        $container->getDefinition('ekino.metric.collector.doctrine')
+            ->replaceArgument(2,$config['collectors']['doctrine']['prefix']);
+
+        $listener = $container->getDefinition('ekino.metric.listener.terminate');
+
+        foreach ($config['collect_from'] as $id) {
+            $listener->addMethodCall('addCollector', array(new Reference($id)));
+        }
     }
 
     /**

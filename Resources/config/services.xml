@@ -5,6 +5,19 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+
+        <service id="ekino.metric.manager" class="Ekino\Metric\MetricManager">
+            <argument />
+        </service>
+
+        <!-- Collector -->
+        <service id="ekino.metric.collector.doctrine" class="Ekino\Metric\Collector\DoctrineCollector">
+            <argument type="collection" />
+            <argument type="service" id="ekino.metric.string_helper" />
+            <argument />
+        </service>
+
+        <!-- AOP -->
         <service id="ekino.metric.pointcut" class="Ekino\Bundle\MetricBundle\Interception\MetricPointcut">
             <tag name="jms_aop.pointcut" interceptor="ekino.metric.interceptor"/>
 
@@ -17,10 +30,7 @@
             <argument type="service" id="ekino.metric.string_helper" />
         </service>
 
-        <service id="ekino.metric.manager" class="Ekino\Metric\MetricManager">
-            <argument />
-        </service>
-
+        <!-- Reporter -->
         <service id="ekino.metric.reporter.collectd" class="Ekino\Metric\Reporter\CollectDReporter">
             <argument />
             <argument />

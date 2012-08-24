@@ -5,6 +5,11 @@ Ekino PHP Metric
 
 Integrate Ekino PHP Metric into Symfony2
 
+**WARNING** - This bundle works with pending pull requests :
+
+* https://github.com/schmittjoh/cg-library/pull/6
+* https://github.com/schmittjoh/JMSAopBundle/pull/13
+
 ## Requirements
 
 * This code must runs with [CollectD](http://collectd.org/) or [StatsD](https://github.com/etsy/statsd/) running
@@ -65,4 +70,32 @@ ekino_metric:
         statsd:
             udp_host:   localhost
             udp_port:   8125
+```
+
+#### Doctrine Collector
+
+If you want to collect information about Doctrine query, you need to enable the doctrine profiler.
+
+```yaml
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                profiling: true
+                driver:    %database_driver%
+                dbname:    %database_name%
+                user:      %database_user%
+                host:      %database_host%
+                password:  %database_password%
+
+ekino_metric:
+    [...]
+    collectors: # configure built in collectors
+        doctrine:
+            prefix: 'mysql.query'
+
+    collect_from:   # configure services to retrieve metric from
+        - ekino.metric.collector.doctrine
+
 ```
