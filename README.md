@@ -70,6 +70,10 @@ ekino_metric:
         statsd:
             udp_host:   localhost
             udp_port:   8125
+
+        newrelic:
+            application_name: Awesome Aplication # (mandatory, default value in newrelic is PHP Application)
+            api_key:                             # New Relic API
 ```
 
 #### Doctrine Collector

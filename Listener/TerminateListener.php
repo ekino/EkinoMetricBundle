@@ -32,7 +32,7 @@ class TerminateListener
     }
 
     /**
-     * @param CollectorInterface|CollectionCollectorInterface $collector
+     * @param CollectionCollectorInterface $collector
      */
     public function addCollector($collector)
     {

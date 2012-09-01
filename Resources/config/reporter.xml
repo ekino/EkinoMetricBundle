@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="ekino.metric.reporter.collectd" class="Ekino\Metric\Reporter\CollectDReporter">
+            <argument />
+            <argument />
+        </service>
+
+        <service id="ekino.metric.reporter.statsd" class="Ekino\Metric\Reporter\StatsDReporter">
+            <argument />
+        </service>
+
+        <service id="ekino.metric.reporter.newrelic" class="Ekino\Metric\Reporter\NewRelicReporter">
+            <argument type="service" id="ekino.metric.new_relic.interactor" />
+        </service>
+    </services>
+</container>

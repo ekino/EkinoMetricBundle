@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="ekino.metric.collector.doctrine" class="Ekino\Metric\Collector\DoctrineCollector">
+            <argument type="collection" />
+            <argument type="service" id="ekino.metric.string_helper" />
+            <argument />
+        </service>
+
+    </services>
+
+</container>

@@ -30,16 +30,7 @@
             <argument type="service" id="ekino.metric.string_helper" />
         </service>
 
-        <!-- Reporter -->
-        <service id="ekino.metric.reporter.collectd" class="Ekino\Metric\Reporter\CollectDReporter">
-            <argument />
-            <argument />
-        </service>
-
-        <service id="ekino.metric.reporter.statsd" class="Ekino\Metric\Reporter\StatsDReporter">
-            <argument />
-        </service>
-
+        <!-- listener -->
         <service id="ekino.metric.listener.terminate" class="Ekino\Bundle\MetricBundle\Listener\TerminateListener">
             <tag name="kernel.event_listener" event="kernel.terminate" method="onTerminate" />
 

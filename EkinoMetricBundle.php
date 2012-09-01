@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Ekino\Bundle\MetricBundle\DependencyInjection\Compiler\ServiceCompilerPass;
 use Ekino\Bundle\MetricBundle\DependencyInjection\Compiler\DoctrineCompilerPass;
+use Ekino\Bundle\MetricBundle\DependencyInjection\Compiler\NewRelicCompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 
@@ -27,5 +28,6 @@ class EkinoMetricBundle extends Bundle
     {
         $container->addCompilerPass(new DoctrineCompilerPass, PassConfig::TYPE_BEFORE_REMOVING);
         $container->addCompilerPass(new ServiceCompilerPass, PassConfig::TYPE_BEFORE_REMOVING);
+        $container->addCompilerPass(new NewRelicCompilerPass);
     }
 }

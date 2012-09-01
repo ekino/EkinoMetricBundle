@@ -20,19 +20,21 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class EkinoMetricExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $loader->load('core.xml');
+        $loader->load('collector.xml');
+        $loader->load('reporter.xml');
+        $loader->load('newrelic.xml');
 
         $this->configureCollectd($config, $container);
         $this->configureStatsd($config, $container);
+        $this->configureNewRelic($config, $container);
 
         $container->getDefinition('ekino.metric.manager')
             ->replaceArgument(0, new Reference($config['reporter']));
@@ -89,5 +91,17 @@ class EkinoMetricExtension extends Extension
         $udpWriter->setPublic(false);
 
         $collectd->replaceArgument(0, $udpWriter);
+    }
+
+    /**
+     * @param array            $config
+     * @param ContainerBuilder $container
+     */
+    public function configureNewRelic(array $config, ContainerBuilder $container)
+    {
+        $container->getDefinition('ekino.metric.new_relic')
+            ->replaceArgument(0, $config['reporters']['newrelic']['application_name'])
+            ->replaceArgument(1, $config['reporters']['newrelic']['api_key'])
+        ;
     }
 }
